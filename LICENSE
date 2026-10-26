@@ -19,27 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
--------------------------------------------------------------------------------
-Scope and third-party data
--------------------------------------------------------------------------------
-
-This MIT License covers only the original code, documentation and synthetic
-farm data in this repository. Third-party data, and the processed layers and
-maps derived from it, remain under their original licences:
-
-- OpenStreetMap data (roads and places)
-  (c) OpenStreetMap contributors. Open Data Commons Open Database License
-  (ODbL) 1.0: https://opendatacommons.org/licenses/odbl/1-0/
-  https://www.openstreetmap.org/copyright
-
-- Ghana administrative boundaries (COD-AB)
-  OCHA / Humanitarian Data Exchange. Creative Commons Attribution for
-  Intergovernmental Organisations (CC BY-IGO):
-  https://creativecommons.org/licenses/by/3.0/igo/
-
-- Hansen Global Forest Change v1.12
-  Hansen/UMD/Google/USGS/NASA. Creative Commons Attribution 4.0
-  International (CC BY 4.0): https://creativecommons.org/licenses/by/4.0/
-  Hansen, M. C. et al. (2013). Science 342, 850-853.
-  doi:10.1126/science.1244693

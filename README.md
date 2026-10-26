@@ -135,6 +135,7 @@ Plot areas range from 0.80 to 6.30 ha, with a mean of 3.58 ha. Because the plots
 ghana-cocoa-belt-qgis/
 ├── README.md
 ├── LICENSE
+├── THIRD_PARTY_NOTICES.md
 ├── .gitignore
 ├── project/
 │   └── ghana-cocoa-belt.qgz              # QGIS project with relative paths and print layout
@@ -220,13 +221,13 @@ Raw downloads are not redistributed here. They are large, and their publishers a
 **Blessing Edmund Kwame Dogbe**, geospatial software engineering portfolio
 
 - GitHub: [@GeekKwame](https://github.com/GeekKwame)
-- Portfolio website: _coming soon_ <!-- TODO: replace with your portfolio URL, e.g. [yourname.dev](https://yourname.dev) -->
+- Portfolio: [devedmund.vercel.app](https://devedmund.vercel.app/)
 
 ## Licence
 
 The original code, documentation and synthetic farm data in this repository are released under the [MIT Licence](LICENSE).
 
-**Third-party data keeps its original licence.** The MIT Licence does not apply to it:
+**Third-party data keeps its original licence.** The MIT Licence does not apply to it. Full notices are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md):
 
 - OpenStreetMap data (roads and towns): © OpenStreetMap contributors, [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/)
 - Ghana administrative boundaries: OCHA / HDX, [CC BY-IGO](https://creativecommons.org/licenses/by/3.0/igo/)

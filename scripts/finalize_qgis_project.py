@@ -3,7 +3,9 @@
 
 from pathlib import Path
 import sys
+import zipfile
 
+from qgis.PyQt.QtCore import QSize
 from qgis.PyQt.QtGui import QColor, QFont
 from qgis.core import (
     Qgis,
@@ -60,17 +62,48 @@ def make_font(size, bold=False):
     return font
 
 
+def make_text_format(size, bold=False, color="#29251f"):
+    text = QgsTextFormat()
+    text.setFont(make_font(size, bold))
+    text.setSize(size)
+    text.setColor(QColor(color))
+    return text
+
+
 def add_label(layout, text, x, y, width, height, size=8, bold=False, color="#29251f"):
     label = QgsLayoutItemLabel(layout)
     label.setText(text)
-    font = make_font(size, bold)
-    label.setFont(font)
-    label.setFontColor(QColor(color))
+    label.setTextFormat(make_text_format(size, bold, color))
     label.setMarginX(1)
     label.setMarginY(0.5)
     layout.addLayoutItem(label)
     move_resize(label, x, y, width, height)
     return label
+
+
+def set_legend_text_format(legend, component, size, bold=False, color="#29251f"):
+    style = legend.style(component)
+    style.setTextFormat(make_text_format(size, bold, color))
+    legend.setStyle(component, style)
+
+
+def make_saved_project_portable(project_path):
+    """Rewrite layout datasource URIs that QGIS stores as absolute paths."""
+    prefix = f'source="{ROOT}/data/processed/'
+    replacement = 'source="../data/processed/'
+    tmp_path = project_path.with_suffix(".qgz.tmp")
+    with zipfile.ZipFile(project_path) as zin, zipfile.ZipFile(
+        tmp_path, "w", zipfile.ZIP_DEFLATED
+    ) as zout:
+        for info in zin.infolist():
+            data = zin.read(info.filename)
+            if info.filename.endswith(".qgs"):
+                text = data.decode("utf-8").replace(prefix, replacement)
+                if "/home/" in text:
+                    raise RuntimeError("Unexpected absolute path left in the saved project")
+                data = text.encode("utf-8")
+            zout.writestr(info, data)
+    tmp_path.replace(project_path)
 
 
 def vector_layer(name, table):
@@ -308,9 +341,9 @@ def main():
     legend.setBackgroundColor(QColor("#fffdf8"))
     legend.setFrameEnabled(True)
     legend.setFrameStrokeColor(QColor("#c8bdad"))
-    legend.style(QgsLegendStyle.Title).setFont(make_font(9, True))
-    legend.style(QgsLegendStyle.Subgroup).setFont(make_font(7))
-    legend.style(QgsLegendStyle.SymbolLabel).setFont(make_font(7))
+    set_legend_text_format(legend, QgsLegendStyle.Title, 9, True)
+    set_legend_text_format(legend, QgsLegendStyle.Subgroup, 7)
+    set_legend_text_format(legend, QgsLegendStyle.SymbolLabel, 7)
     legend_root = legend.model().rootGroup()
     legend_root.clear()
     for layer in [markers, farms, places, roads, districts, loss]:
@@ -327,7 +360,7 @@ def main():
     scale.setNumberOfSegments(3)
     scale.setNumberOfSegmentsLeft(0)
     scale.setHeight(2.2)
-    scale.setFont(make_font(7))
+    scale.setTextFormat(make_text_format(7))
     layout.addLayoutItem(scale)
     move_resize(scale, 17, 169, 62, 10)
 
@@ -347,27 +380,34 @@ def main():
         "Synthetic training farms — not real farmer data. Diamond markers exaggerate plot locations for visibility.\n"
         "Sources: OCHA COD-AB; © OpenStreetMap contributors (ODbL); Hansen/UMD/Google/USGS/NASA. "
         "Forest loss is a relative indicator, not a deforestation verdict.\n"
-        "CRS: WGS 84 / UTM zone 30N (EPSG:32630)  |  Author: Edmund Dogbe  |  26 Oct 2026"
+        "CRS: WGS 84 / UTM zone 30N (EPSG:32630)  |  Author: Blessing Edmund Kwame Dogbe  |  26 Oct 2026"
     )
     add_label(layout, footer, 10, 184, 277, 20, 6.5, False, "#49433b")
 
     manager.addLayout(layout)
     EXPORTS.mkdir(parents=True, exist_ok=True)
+    pdf_path = EXPORTS / "ghana-cocoa-belt.pdf"
+    png_path = EXPORTS / "ghana-cocoa-belt.png"
+    pdf_path.unlink(missing_ok=True)
+    png_path.unlink(missing_ok=True)
     exporter = QgsLayoutExporter(layout)
     pdf_settings = QgsLayoutExporter.PdfExportSettings()
     pdf_settings.dpi = 300
-    pdf_result = exporter.exportToPdf(str(EXPORTS / "ghana-cocoa-belt.pdf"), pdf_settings)
-    image_settings = QgsLayoutExporter.ImageExportSettings()
-    image_settings.dpi = 220
-    png_result = exporter.exportToImage(str(EXPORTS / "ghana-cocoa-belt.png"), image_settings)
-    if pdf_result != QgsLayoutExporter.Success or png_result != QgsLayoutExporter.Success:
-        raise RuntimeError(f"Export failed: PDF={pdf_result}, PNG={png_result}")
+    pdf_result = exporter.exportToPdf(str(pdf_path), pdf_settings)
+    if pdf_result != QgsLayoutExporter.Success:
+        raise RuntimeError(f"PDF export failed: {pdf_result}")
+    # Render through Qt rather than GDAL so PNG export does not try to
+    # update-georeference a format that cannot be opened for writing.
+    image = exporter.renderPageToImage(0, QSize(), 220)
+    if image.isNull() or not image.save(str(png_path), "PNG"):
+        raise RuntimeError("PNG export failed")
 
     if not project.write(str(PROJECT_PATH)):
         raise RuntimeError(f"Could not save {PROJECT_PATH}")
+    make_saved_project_portable(PROJECT_PATH)
     print(f"Saved project: {PROJECT_PATH}")
-    print(f"Exported: {EXPORTS / 'ghana-cocoa-belt.pdf'}")
-    print(f"Exported: {EXPORTS / 'ghana-cocoa-belt.png'}")
+    print(f"Exported: {pdf_path}")
+    print(f"Exported: {png_path}")
     # Do not call exitQgis() here: this QGIS build can segfault while tearing down GDAL.
     return 0
 
