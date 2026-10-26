@@ -1,0 +1,45 @@
+MIT License
+
+Copyright (c) 2026 Blessing Edmund Kwame Dogbe
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-------------------------------------------------------------------------------
+Scope and third-party data
+-------------------------------------------------------------------------------
+
+This MIT License covers only the original code, documentation and synthetic
+farm data in this repository. Third-party data, and the processed layers and
+maps derived from it, remain under their original licences:
+
+- OpenStreetMap data (roads and places)
+  (c) OpenStreetMap contributors. Open Data Commons Open Database License
+  (ODbL) 1.0: https://opendatacommons.org/licenses/odbl/1-0/
+  https://www.openstreetmap.org/copyright
+
+- Ghana administrative boundaries (COD-AB)
+  OCHA / Humanitarian Data Exchange. Creative Commons Attribution for
+  Intergovernmental Organisations (CC BY-IGO):
+  https://creativecommons.org/licenses/by/3.0/igo/
+
+- Hansen Global Forest Change v1.12
+  Hansen/UMD/Google/USGS/NASA. Creative Commons Attribution 4.0
+  International (CC BY 4.0): https://creativecommons.org/licenses/by/4.0/
+  Hansen, M. C. et al. (2013). Science 342, 850-853.
+  doi:10.1126/science.1244693

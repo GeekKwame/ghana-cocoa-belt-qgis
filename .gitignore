@@ -1,0 +1,62 @@
+# QGIS backups, auxiliary storage and temporary files
+*.qgs~
+*.qgz~
+*.qgs.bak
+*.qgz.bak
+*.qgd
+*.qgs.lock
+*.qgz.lock
+.*.qgs.lock
+*_attachments.zip
+*.aux.xml
+*.ovr
+*.tif.msk
+*.gpkg-shm
+*.gpkg-wal
+*.gpkg-journal
+*.ldb
+*.lock
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+.env
+
+# Editor and OS files
+.vscode/
+.idea/
+.cursor/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Raw downloads and scratch data (only the processed portfolio datasets are published)
+data/raw/
+data/tmp/
+data/scratch/
+*.zip
+*.osm.pbf
+
+# Temporary or ad-hoc exports
+exports/tmp/
+exports/*.tmp
+exports/*_draft.*
+exports/*.pgw
+exports/*.pngw
+exports/*.wld
+*.tmp
+
+# Keep the published project, processed data and map exports
+!project/ghana-cocoa-belt.qgz
+!data/processed/ghana-cocoa-belt.gpkg
+!data/processed/forest_loss_2021_2024.tif
+!exports/ghana-cocoa-belt.pdf
+!exports/ghana-cocoa-belt.png
